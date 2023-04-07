@@ -18,6 +18,6 @@ Automating test cases on Amazon website
 
 
 # How to run:
-- Download the project
+- Download the project  or clone the project
 - Add your amazon credentials in environment.properties files "src\main\resources\properties\environment.properties"
 - Open your command line in the project folder, Run the command "mvn test"
