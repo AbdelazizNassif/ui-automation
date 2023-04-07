@@ -32,7 +32,7 @@ public class TestBase {
         if (result.getStatus() == ITestResult.FAILURE) {
             takeScreenshot(driver, result.getName() );
         }
-        //driver.quit();
+        driver.quit();
     }
 
 
