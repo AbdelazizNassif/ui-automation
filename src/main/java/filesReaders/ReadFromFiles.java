@@ -11,7 +11,7 @@ import java.util.Properties;
 
 public class ReadFromFiles {
 
-    public static Properties getAllProperties(String fileName) {
+    public synchronized static Properties getAllProperties(String fileName) {
         Properties fileProperties = null;
         try {
             FileReader fileReader = new FileReader( "./src/main/resources/properties/" + fileName) ;
@@ -24,12 +24,15 @@ public class ReadFromFiles {
         }
         return fileProperties;
     }
-    public static String getPropertyByKey(String fileName, String propertyKey) {
+    public synchronized  static String getPropertyByKey(String fileName, String propertyKey) {
         Properties fileProperties = getAllProperties (fileName);
         return fileProperties.getProperty(propertyKey);
     }
-
-    public static JSONObject getJsonBody(String fileName)
+    public synchronized  static boolean getBooleanProperty(String fileName, String propertyKey) {
+        Properties fileProperties = getAllProperties (fileName);
+        return Boolean.parseBoolean(fileProperties.getProperty(propertyKey));
+    }
+    public synchronized  static JSONObject getJsonBody(String fileName)
     {
         JSONParser parser = new JSONParser();
         Object obj = null ;
@@ -45,17 +48,17 @@ public class ReadFromFiles {
         JSONObject jsonObject = (JSONObject) obj;
         return jsonObject;
     }
-    public static String getJsonStringValueByKey(String fileName, String jsonKey) {
+    public synchronized  static String getJsonStringValueByKey(String fileName, String jsonKey) {
         JSONObject jsonObject = getJsonBody(fileName);
         String value = (String) jsonObject.get(jsonKey);
         return value;
     }
-    public static Object getJsonValueByKey(String fileName, String jsonKey) {
+    public synchronized  static Object getJsonValueByKey(String fileName, String jsonKey) {
         JSONObject jsonObject = getJsonBody(fileName);
         return  jsonObject.get(jsonKey);
     }
 
-    public static int getJsonIntegerValueByKey(String fileName, String jsonKey) {
+    public synchronized  static int getJsonIntegerValueByKey(String fileName, String jsonKey) {
         JSONObject jsonObject = getJsonBody(fileName);
         int value = (int) jsonObject.get(jsonKey);
         return value;

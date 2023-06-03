@@ -1,7 +1,10 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+
+import static filesReaders.ReadFromFiles.getPropertyByKey;
 
 public class LoginPage extends BasePage{
 
@@ -9,17 +12,19 @@ public class LoginPage extends BasePage{
         super(driver);
     }
 
-    By emailField = By.id("ap_email") ;
-    By continueBtn = By.id("continue") ;
-    By passwordField = By.id("ap_password") ;
-    By signInBtn = By.id("signInSubmit") ;
 
-    public HomePage loginToAmazonWebsite (String phoneOrEmail, String password)
-    {
-        typeOnInputField(emailField, phoneOrEmail);
+
+    public synchronized void login() {
+        By emailField = By.id("user");
+        By continueBtn = By.id("login");
+        By passwordField = By.id("password");
+        typeOnInputField(emailField, getPropertyByKey("environment.properties", "USER_EMAIL"));
         clickElement(continueBtn);
-        typeOnInputField(passwordField, password);
-        clickElement(signInBtn);
-        return new HomePage(driver);
+        typeOnInputField(passwordField, getPropertyByKey("environment.properties", "PASSWORD") + Keys.ENTER);
+    }
+
+    public synchronized LoginPage navigate ()  {
+        navigateToURL(getPropertyByKey("environment.properties", "BASE_URL") + "login");
+        return this;
     }
 }

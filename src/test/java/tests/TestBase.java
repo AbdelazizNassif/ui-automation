@@ -2,37 +2,44 @@ package tests;
 
 
 import driverSettigns.DriverFactory;
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 import pages.HomePage;
+import pages.LoginPage;
+import pages.NavBar;
 
+
+import java.io.File;
+import java.io.IOException;
 
 import static pages.BasePage.takeScreenshot;
 
 public class TestBase {
 
-    protected static WebDriver driver;
-    protected HomePage homePage;
+    protected volatile static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
-
-
-    @BeforeMethod
-    public void setup () {
-        driver= DriverFactory.getDriver() ;
-        // start of application
-        homePage=new HomePage(driver);
-        homePage.navigateToHomePage();
-        driver.manage().window().maximize();
+    @BeforeSuite
+    public synchronized void deleteOldReports() throws IOException {
+        FileUtils.deleteDirectory(new File("C:/selenium-trello/selenium-trello/screenshots"));
     }
 
-    @AfterMethod
-    public void teardown (ITestResult result)
-    {
+    @BeforeMethod
+    public synchronized void a_setup() {
+        driver.set(new DriverFactory().getDriver());
+        new LoginPage(driver.get())
+                .navigate().login();
+        driver.get().manage().window().maximize();
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public synchronized void z_teardown(ITestResult result) {
         if (result.getStatus() == ITestResult.FAILURE) {
-            takeScreenshot(driver, result.getName() );
+            takeScreenshot(driver.get(), result.getName());
         }
-        driver.quit();
+        driver.get().quit();
+        driver.remove();
     }
 
 

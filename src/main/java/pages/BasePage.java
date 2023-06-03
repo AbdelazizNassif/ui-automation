@@ -14,8 +14,8 @@ import java.util.List;
 
 public class BasePage {
 
-    WebDriver driver;
-    WebDriverWait wait;
+    static WebDriver driver;
+    protected WebDriverWait wait;
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
@@ -23,14 +23,18 @@ public class BasePage {
     }
 
     protected WebElement locateElement(By elementLocator) {
+        wait.until(ExpectedConditions.presenceOfElementLocated(elementLocator));
         wait.until(ExpectedConditions.visibilityOfElementLocated(elementLocator));
         wait.until(ExpectedConditions.elementToBeClickable(elementLocator));
+        //wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(elementLocator, 0));
+
         return driver.findElement(elementLocator);
     }
 
     protected List<WebElement> locateListOfElements(By elementsLocator) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(elementsLocator));
         wait.until(ExpectedConditions.elementToBeClickable(elementsLocator));
+        wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(elementsLocator, 0));
         return driver.findElements(elementsLocator);
     }
 
@@ -90,7 +94,10 @@ public class BasePage {
     {
         driver.get(url);
     }
-
+    protected void refreshCurrentPage ()
+    {
+        driver.navigate().refresh();
+    }
     public void waitUntilPageToLoad ()
     {
         JavascriptExecutor j = (JavascriptExecutor)driver;

@@ -12,15 +12,16 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import static filesReaders.ReadFromFiles.getBooleanProperty;
 import static filesReaders.ReadFromFiles.getPropertyByKey;
 
 public class DriverFactory {
-    static WebDriver driver = null ;
+    WebDriver driver = null ;
     static String runMode = null;
     static String browser = null;
     static final String PROPERTIES_FILE_NAME = "execution.properties" ;
 
-    public static WebDriver getDriver ()
+    public WebDriver getDriver ()
     {
         runMode = getPropertyByKey(PROPERTIES_FILE_NAME, "RUN_MODE");
         if (runMode.equalsIgnoreCase("local"))
@@ -30,6 +31,12 @@ public class DriverFactory {
             {
                 ChromeOptions options = new ChromeOptions();
                 options.addArguments("--remote-allow-origins=*");
+
+                if (getBooleanProperty(PROPERTIES_FILE_NAME, "HEADLESS") == true)
+                {
+                    options.setHeadless(true);
+                    options.addArguments("--window-size=1480,700");
+                }
                 driver = new ChromeDriver(options);
             }
             else if (browser.equalsIgnoreCase("edge"))
@@ -47,10 +54,25 @@ public class DriverFactory {
         else if (runMode.equalsIgnoreCase("docker"))
         {
             DesiredCapabilities caps = new DesiredCapabilities();
+
             caps.setBrowserName(getPropertyByKey(PROPERTIES_FILE_NAME, "BROWSER"));
+//            caps.setVersion("101");
             caps.setPlatform(Platform.LINUX);
             try {
                 driver = new RemoteWebDriver(new URL(getPropertyByKey(PROPERTIES_FILE_NAME, "DOCKER_ADDRESS")), caps);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }
+        else if (runMode.equalsIgnoreCase("localGrid"))
+        {
+            DesiredCapabilities caps = new DesiredCapabilities();
+
+            caps.setBrowserName(getPropertyByKey(PROPERTIES_FILE_NAME, "BROWSER"));
+//            caps.setVersion("101");
+            caps.setPlatform(Platform.LINUX);
+            try {
+                driver = new RemoteWebDriver(new URL("http://localhost:4444/"), caps);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
