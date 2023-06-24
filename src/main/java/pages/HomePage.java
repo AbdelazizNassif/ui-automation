@@ -15,6 +15,9 @@ public class HomePage extends BasePage {
     public HomePage(WebDriver driver) {
         super(driver);
     }
+    By boardTitles = By.cssSelector(".board-tile-details-name");
+    By addNewBoardTile = By.xpath("//*[text()='Create new board']");
+    String boardTitleLocator = "//div[@title='%s' and contains(@class, 'board-tile-details-name')]";
 
 
     public synchronized HomePage navigate() {
@@ -23,7 +26,6 @@ public class HomePage extends BasePage {
     }
 
     public synchronized List<String> getAllTitlesBoard() {
-        By boardTitles = By.cssSelector(".board-tile-details-name");
 
         List<String> titles = new ArrayList<>();
         refreshCurrentPage();
@@ -34,14 +36,12 @@ public class HomePage extends BasePage {
     }
 
     public synchronized NewBoardPopup clickAddNewBoardTile() {
-        By addNewBoardTile = By.xpath("//*[text()='Create new board']");
         waitUntilPageToLoad();
         clickElement(addNewBoardTile);
         return new NewBoardPopup(driver);
     }
 
     public synchronized BoardPreviewPage clickSpecificBoardByName(String boardName) {
-        String boardTitleLocator = "//div[@title='%s' and contains(@class, 'board-tile-details-name')]";
 
         By boardTitleXpath = By.xpath(String.format(boardTitleLocator, boardName));
         clickElement(boardTitleXpath);

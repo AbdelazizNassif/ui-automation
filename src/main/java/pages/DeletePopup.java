@@ -8,11 +8,11 @@ public class DeletePopup extends BasePage{
     public DeletePopup(WebDriver driver) {
         super(driver);
     }
+    By deletionMessage = By.cssSelector("[data-testid='close-board-big-message']");
 
 
     public synchronized String getDeletionMessage ()
     {
-        By deletionMessage = By.cssSelector("[data-testid='close-board-big-message']");
         return getTextOfElement(deletionMessage);
     }
 }

@@ -11,13 +11,13 @@ public class LoginPage extends BasePage{
     public LoginPage(WebDriver driver) {
         super(driver);
     }
-
+    By emailField = By.id("user");
+    By continueBtn = By.id("login");
+    By passwordField = By.id("password");
 
 
     public synchronized void login() {
-        By emailField = By.id("user");
-        By continueBtn = By.id("login");
-        By passwordField = By.id("password");
+
         typeOnInputField(emailField, getPropertyByKey("environment.properties", "USER_EMAIL"));
         clickElement(continueBtn);
         typeOnInputField(passwordField, getPropertyByKey("environment.properties", "PASSWORD") + Keys.ENTER);

@@ -17,25 +17,22 @@ public class BoardsTestsParallel extends TestBase {
 
     volatile ThreadLocal<String> boardName= new ThreadLocal<>();;
     volatile ThreadLocal<String> privateBoardVisibility= new ThreadLocal<>();;
-    volatile ThreadLocal<String> testDataFile= new ThreadLocal<>();
+    final String testDataFile= "board.json" ;
 
     @BeforeMethod
     public synchronized   void getTestData ()
     {
-        testDataFile.set( "board.json"  ) ;
-        boardName .set( (  String.format(getJsonStringValueByKey(testDataFile.get(),"boardName"), generateRandomString(7))) ) ;
-        privateBoardVisibility .set( ( getJsonStringValueByKey(testDataFile.get(),"privateBoardVisibility")) )  ;
+        boardName .set( (  String.format(getJsonStringValueByKey(testDataFile,"boardName"), generateRandomString(7))) ) ;
+        privateBoardVisibility .set( ( getJsonStringValueByKey(testDataFile,"privateBoardVisibility")) )  ;
     }
 
     @Test
     public synchronized   void verifyNewBoardIsAdded_UI()  {
 
         NewBoardPopup newBoardPopup = new HomePage(driver.get()).clickAddNewBoardTile();
-        newBoardPopup.clickCreateBoardBtn();
+        newBoardPopup.fillBoardTitle(boardName.get());
         newBoardPopup.selectBoardVisibility(privateBoardVisibility.get());
         BoardPreviewPage boardPreviewPage = newBoardPopup.clickCreateBoardBtn();
-
-
 
         Assert.assertEquals(boardPreviewPage.getBoardTitle(), boardName.get(),
                 "board name should match the creation name");
@@ -49,7 +46,7 @@ public class BoardsTestsParallel extends TestBase {
     public synchronized   void verifyNewBoardIsAdded_UI22()  {
 
         NewBoardPopup newBoardPopup = new HomePage(driver.get()).clickAddNewBoardTile();
-        newBoardPopup.clickCreateBoardBtn();
+        newBoardPopup.fillBoardTitle(boardName.get());
         newBoardPopup.selectBoardVisibility(privateBoardVisibility.get());
         BoardPreviewPage boardPreviewPage = newBoardPopup.clickCreateBoardBtn();
 
@@ -100,12 +97,5 @@ public class BoardsTestsParallel extends TestBase {
                 "numebr of closed board should be greater than 0");
     }
 
-    @AfterMethod
-    public synchronized void clearThreads ()
-    {
-        boardName = null ;
-        privateBoardVisibility = null ;
-        testDataFile  = null ;
-    }
 
 }

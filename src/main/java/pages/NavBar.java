@@ -9,11 +9,11 @@ public class NavBar extends BasePage{
     public NavBar(WebDriver driver) {
         super(driver);
     }
+    By loginBtn = By.xpath("//div[contains(@class,'BigNavstyles')]//a[text()='Log in']");
 
 
     public synchronized LoginPage clickLoginBtnFromNavBar ()
     {
-        By loginBtn = By.xpath("//div[contains(@class,'BigNavstyles')]//a[text()='Log in']");
         clickElement(loginBtn) ;
         return new LoginPage(driver) ;
     }

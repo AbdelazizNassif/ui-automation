@@ -16,16 +16,15 @@ import static utils.DataGen.generateRandomString;
 public class BoardsTests extends TestBase {
 
     volatile static ThreadLocal<String> boardName = new ThreadLocal<>();
-    volatile static  ThreadLocal<String> testDataFile = new ThreadLocal<>();
+    final String testDataFile = "board.json";
     volatile BoardsApis boardApis ;
     volatile static  ThreadLocal<String> boardId = new ThreadLocal<>();
 
     @BeforeMethod
     public synchronized void precondition_getTestData() {
-        testDataFile.set("board.json");
         boardApis = new BoardsApis(getPropertyByKey("environment.properties", "API_KEY"),
                 getPropertyByKey("environment.properties", "TOKEN")) ;
-        boardName.set(String.format(getJsonStringValueByKey(testDataFile.get(), "boardName"),
+        boardName.set(String.format(getJsonStringValueByKey(testDataFile, "boardName"),
                 generateRandomString(7)));
     }
 
@@ -100,9 +99,5 @@ public class BoardsTests extends TestBase {
         response.then().statusCode(200)
                 .body("_value", Matchers.equalTo(null));
 
-        boardName = null;
-        testDataFile = null;
-        boardApis = null;
-        boardId = null;
     }
 }

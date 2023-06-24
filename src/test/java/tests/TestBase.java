@@ -20,10 +20,6 @@ public class TestBase {
 
     protected volatile static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
-    @BeforeSuite
-    public synchronized void deleteOldReports() throws IOException {
-        FileUtils.deleteDirectory(new File("C:/selenium-trello/selenium-trello/screenshots"));
-    }
 
     @BeforeMethod
     public synchronized void a_setup() {

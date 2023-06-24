@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="trello regression suite"  >
-    <test name="trello regression suite" parallel="methods" thread-count="2">
+    <test name="trello regression suite" >
         <classes>
             <class name="tests.boards.BoardsTests" > </class>
-<!--            <class name="tests.boards.BoardsTestsParallel" > </class>-->
-<!--            <class name="tests.boards.BoardsUpdateAndDeleteTests"> </class>-->
-<!--            <class name="tests.boards.BoardsTestsUI"> </class>-->
+            <class name="tests.boards.BoardsTestsParallel" > </class>
+            <class name="tests.boards.BoardsUpdateAndDeleteTests"> </class>
+            <class name="tests.boards.BoardsTestsUI"> </class>
         </classes>
     </test>
 </suite>

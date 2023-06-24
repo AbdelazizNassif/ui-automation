@@ -9,10 +9,10 @@ public class ClosedBoardsPopup extends BasePage{
     public ClosedBoardsPopup(WebDriver driver) {
         super(driver);
     }
+    By closedBoards = By.cssSelector(".KIigWC5xzGtpZ7") ;
 
     public synchronized int getNumberOfClosedBoards ()
     {
-        By closedBoards = By.cssSelector(".KIigWC5xzGtpZ7") ;
         return locateListOfElements(closedBoards).size();
     }
 }
