@@ -83,9 +83,5 @@ public class BoardsUpdateAndDeleteTests extends TestBase {
         response.then().log().all();
         response.then().statusCode(200)
                 .body("_value" , Matchers.equalTo(null));
-
-        boardApis  = null ;
-        boardName  = null ;
-        boardId  = null ;
     }
 }

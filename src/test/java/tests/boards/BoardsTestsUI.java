@@ -33,7 +33,7 @@ public class BoardsTestsUI extends TestBase {
     @Test
     public synchronized    void verifyNewBoardIsAdded_firstMethod()  {
         NewBoardPopup newBoardPopup = new HomePage(driver.get()).clickAddNewBoardTile();
-        newBoardPopup.clickCreateBoardBtn();
+        newBoardPopup.fillBoardTitle(boardName.get());
         newBoardPopup.selectBoardVisibility(privateBoardVisibility.get());
         BoardPreviewPage boardPreviewPage = newBoardPopup.clickCreateBoardBtn();
 
@@ -46,7 +46,7 @@ public class BoardsTestsUI extends TestBase {
     @Test
     public synchronized    void verifyNewBoardIsAdded_secondMethod()  {
         NewBoardPopup newBoardPopup = new HomePage(driver.get()).clickAddNewBoardTile();
-        newBoardPopup.clickCreateBoardBtn();
+        newBoardPopup.fillBoardTitle(boardName.get());
         newBoardPopup.selectBoardVisibility(privateBoardVisibility.get());
         BoardPreviewPage boardPreviewPage = newBoardPopup.clickCreateBoardBtn();
 
@@ -59,7 +59,7 @@ public class BoardsTestsUI extends TestBase {
     @Test
     public synchronized    void verifyNewBoardIsAdded_thirdMethod()  {
         NewBoardPopup newBoardPopup = new HomePage(driver.get()).clickAddNewBoardTile();
-        newBoardPopup.clickCreateBoardBtn();
+        newBoardPopup.fillBoardTitle(boardName.get());
         newBoardPopup.selectBoardVisibility(privateBoardVisibility.get());
         BoardPreviewPage boardPreviewPage = newBoardPopup.clickCreateBoardBtn();
 
@@ -74,9 +74,6 @@ public class BoardsTestsUI extends TestBase {
     {
             new SideMenu(driver.get())
                     .deleteActiveBoard(boardName.get());
-        boardName = null ;
-        privateBoardVisibility = null ;
-
     }
 
 }
